@@ -1,11 +1,224 @@
 'use client'
 
 import { useEffect, useState, useRef } from 'react'
-import { motion } from 'framer-motion'
+import { motion, useAnimation } from 'framer-motion'
+import ContactForm from './components/ContactForm'
+
+// Glitch Button Component
+function GlitchButton({ onClick, isDarkMode }: { onClick: () => void; isDarkMode: boolean }) {
+  const [isGlitching, setIsGlitching] = useState(false)
+  const controls = useAnimation()
+
+  useEffect(() => {
+    // Random glitch intervals - more frequent, more intense
+    const glitchInterval = setInterval(() => {
+      setIsGlitching(true)
+      // Pixelated position shifts - larger, more dramatic movement
+      controls.start({
+        x: [0, -4, 4, -3, 3, -2, 2, 0],
+        y: [0, 2, -2, 3, -3, 1, -1, 0],
+        transition: {
+          duration: 0.3,
+          times: [0, 0.14, 0.28, 0.42, 0.56, 0.7, 0.84, 1],
+          ease: [0.25, 0.1, 0.25, 1], // Custom cubic bezier for chunky feel
+        },
+      })
+      setTimeout(() => setIsGlitching(false), 300)
+    }, 2500 + Math.random() * 2000) // Random interval between 2.5-4.5 seconds
+
+    return () => clearInterval(glitchInterval)
+  }, [controls])
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.6, ease: 'easeOut' }}
+      className="relative"
+    >
+      <motion.button
+        onClick={onClick}
+        animate={controls}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className={`relative inline-block px-12 py-6 bg-white dark:bg-[#1e1e1e] text-[#6a6a6a] dark:text-[#858585] text-2xl font-bold rounded-none hover:bg-[#f5f5f5] dark:hover:bg-[#2d2d2d] transition-colors duration-300 cursor-pointer border border-[#e0e0e0] dark:border-[#3e3e42] overflow-hidden group`}
+      >
+        {/* Base text */}
+        <span className="relative z-10 block">Inquire</span>
+        
+        {/* Pixel glitch effect - blocky displacement */}
+        {isGlitching && (
+          <>
+            {/* Pixel blocks - top section */}
+            <motion.div
+              className="absolute inset-0 flex items-center justify-center pointer-events-none z-20"
+              style={{
+                clipPath: 'inset(0 0 60% 0)',
+              }}
+              animate={{
+                x: [-4, 4, -3, 3, -2, 0],
+                y: [0, -2, 2, -1, 1, 0],
+              }}
+              transition={{
+                duration: 0.25,
+                times: [0, 0.2, 0.4, 0.6, 0.8, 1],
+                ease: [0.5, 0, 0.5, 1], // Sharp cubic bezier for pixelated feel
+              }}
+            >
+              <span className={`text-2xl font-bold ${
+                isDarkMode ? 'text-[#ffffff]' : 'text-[#2d2d2d]'
+              }`} style={{ opacity: 0.7 }}>
+                Inquire
+              </span>
+            </motion.div>
+            
+            {/* Pixel blocks - middle section */}
+            <motion.div
+              className="absolute inset-0 flex items-center justify-center pointer-events-none z-20"
+              style={{
+                clipPath: 'inset(30% 0 30% 0)',
+              }}
+              animate={{
+                x: [4, -4, 3, -3, 2, 0],
+                y: [2, -2, 1, -1, 0, 0],
+              }}
+              transition={{
+                duration: 0.25,
+                times: [0, 0.2, 0.4, 0.6, 0.8, 1],
+                ease: [0.5, 0, 0.5, 1], // Sharp cubic bezier for pixelated feel
+                delay: 0.05,
+              }}
+            >
+              <span className={`text-2xl font-bold ${
+                isDarkMode ? 'text-[#858585]' : 'text-[#6a6a6a]'
+              }`} style={{ opacity: 0.7 }}>
+                Inquire
+              </span>
+            </motion.div>
+            
+            {/* Pixel blocks - bottom section */}
+            <motion.div
+              className="absolute inset-0 flex items-center justify-center pointer-events-none z-20"
+              style={{
+                clipPath: 'inset(60% 0 0 0)',
+              }}
+              animate={{
+                x: [-3, 3, -4, 4, -2, 0],
+                y: [-2, 2, -1, 1, 0, 0],
+              }}
+              transition={{
+                duration: 0.25,
+                times: [0, 0.2, 0.4, 0.6, 0.8, 1],
+                ease: [0.5, 0, 0.5, 1], // Sharp cubic bezier for pixelated feel
+                delay: 0.1,
+              }}
+            >
+              <span className={`text-2xl font-bold ${
+                isDarkMode ? 'text-[#ffffff]' : 'text-[#2d2d2d]'
+              }`} style={{ opacity: 0.7 }}>
+                Inquire
+              </span>
+            </motion.div>
+
+            {/* Additional pixel blocks for more chaos */}
+            {[...Array(6)].map((_, i) => {
+              const heights = [12, 18, 22, 15, 20, 16]
+              const positions = [5, 25, 45, 60, 75, 85]
+              return (
+                <motion.div
+                  key={i}
+                  className="absolute inset-0 flex items-center justify-center pointer-events-none z-20"
+                  style={{
+                    clipPath: `inset(${positions[i]}% 0 ${100 - positions[i] - heights[i]}% 0)`,
+                  }}
+                  animate={{
+                    x: [Math.random() * 6 - 3, Math.random() * 6 - 3, Math.random() * 4 - 2, 0],
+                    opacity: [0, 0.6, 0.6, 0],
+                  }}
+                  transition={{
+                    duration: 0.25,
+                    times: [0, 0.33, 0.66, 1],
+                    ease: [0.5, 0, 0.5, 1], // Sharp cubic bezier for pixelated feel
+                    delay: i * 0.03,
+                  }}
+                >
+                  <span className={`text-2xl font-bold ${
+                    isDarkMode 
+                      ? i % 2 === 0 ? 'text-[#ffffff]' : 'text-[#858585]'
+                      : i % 2 === 0 ? 'text-[#2d2d2d]' : 'text-[#6a6a6a]'
+                  }`}>
+                    Inquire
+                  </span>
+                </motion.div>
+              )
+            })}
+          </>
+        )}
+
+        {/* Pixel scanline effect - more intense */}
+        {isGlitching && (
+          <>
+            {[...Array(4)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute inset-0 pointer-events-none z-30"
+                initial={{ y: '-100%', opacity: 0 }}
+                animate={{
+                  y: ['-100%', '100%'],
+                  opacity: [0, 0.2, 0],
+                }}
+                transition={{
+                  duration: 0.2,
+                  delay: i * 0.04,
+                }}
+                style={{
+                  background: isDarkMode
+                    ? `repeating-linear-gradient(
+                        0deg,
+                        transparent,
+                        transparent 2px,
+                        rgba(255, 255, 255, 0.12) 2px,
+                        rgba(255, 255, 255, 0.12) 4px
+                      )`
+                    : `repeating-linear-gradient(
+                        0deg,
+                        transparent,
+                        transparent 2px,
+                        rgba(0, 0, 0, 0.08) 2px,
+                        rgba(0, 0, 0, 0.08) 4px
+                      )`,
+                  height: '4px',
+                }}
+              />
+            ))}
+          </>
+        )}
+
+        {/* Subtle hover white noise effect */}
+        <motion.div
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none z-10"
+          animate={{
+            background: isDarkMode
+              ? [
+                  'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.03), transparent)',
+                  'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent)',
+                ]
+              : [
+                  'linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.02), transparent)',
+                  'linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.04), transparent)',
+                ],
+          }}
+          transition={{ duration: 0.8, repeat: Infinity }}
+        />
+      </motion.button>
+    </motion.div>
+  )
+}
 
 export default function Home() {
   const [currentStep, setCurrentStep] = useState(0)
   const [isDarkMode, setIsDarkMode] = useState(true)
+  const [isContactFormOpen, setIsContactFormOpen] = useState(false)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -197,18 +410,7 @@ export default function Home() {
 
         {/* Section 3: Inquire Button */}
         <div className="min-w-full h-full flex flex-col justify-center items-center px-8 relative z-10 snap-center">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, ease: 'easeOut' }}
-          >
-            <a
-              href="mailto:inquiry@agentex.com?subject=Domain Inquiry - AgentEX"
-              className="inline-block px-12 py-6 bg-white dark:bg-[#1e1e1e] text-[#6a6a6a] dark:text-[#858585] text-2xl font-bold rounded-none hover:bg-[#f5f5f5] dark:hover:bg-[#2d2d2d] transition-colors duration-300 cursor-pointer border border-[#e0e0e0] dark:border-[#3e3e42]"
-            >
-              Inquire
-            </a>
-          </motion.div>
+          <GlitchButton onClick={() => setIsContactFormOpen(true)} isDarkMode={isDarkMode} />
         </div>
       </div>
 
@@ -227,6 +429,13 @@ export default function Home() {
           </motion.div>
         </motion.div>
       )}
+
+      {/* Contact Form Modal */}
+      <ContactForm
+        isOpen={isContactFormOpen}
+        onClose={() => setIsContactFormOpen(false)}
+        isDarkMode={isDarkMode}
+      />
     </div>
   )
 }
