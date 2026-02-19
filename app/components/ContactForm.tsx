@@ -283,7 +283,7 @@ export default function ContactForm({ isOpen, onClose, isDarkMode }: ContactForm
                           transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                           className="p-4 bg-green-500/20 border border-green-500 text-green-600 dark:text-green-400"
                         >
-                          Message sent successfully! We'll get back to you soon.
+                          Message sent successfully! We&apos;ll get back to you soon.
                         </motion.div>
                       )}
 
