@@ -50,7 +50,7 @@ This message was sent from the AgentEX domain inquiry form.
         
         await resend.emails.send({
           from: 'contact@agentex.com',
-          to: 'contact@agentex.com',
+          to: 'nichedotsol@gmail.com',
           subject: `New Domain Inquiry from ${name}`,
           text: emailBody,
           replyTo: email,

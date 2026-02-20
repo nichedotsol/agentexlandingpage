@@ -295,7 +295,7 @@ export default function ContactForm({ isOpen, onClose, isDarkMode }: ContactForm
                           transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                           className="p-4 bg-red-500/20 border border-red-500 text-red-600 dark:text-red-400"
                         >
-                          Failed to send message. Please try again or email us directly at contact@agentex.com
+                          Failed to send message. Please try again or email us directly at nichedotsol@gmail.com
                         </motion.div>
                       )}
                     </AnimatePresence>
