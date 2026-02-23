@@ -2,10 +2,9 @@
 
 import { useEffect, useState, useRef } from 'react'
 import { motion, useAnimation } from 'framer-motion'
-import ContactForm from './components/ContactForm'
 
 // Glitch Button Component
-function GlitchButton({ onClick, isDarkMode }: { onClick: () => void; isDarkMode: boolean }) {
+function GlitchButton({ isDarkMode }: { isDarkMode: boolean }) {
   const [isGlitching, setIsGlitching] = useState(false)
   const controls = useAnimation()
 
@@ -36,12 +35,12 @@ function GlitchButton({ onClick, isDarkMode }: { onClick: () => void; isDarkMode
       transition={{ duration: 0.6, ease: 'easeOut' }}
       className="relative"
     >
-      <motion.button
-        onClick={onClick}
+      <motion.a
+        href="mailto:nichedotsol@gmail.com?subject=AgentEX Domain Inquiry"
         animate={controls}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className={`relative inline-block px-12 py-6 bg-white dark:bg-[#1e1e1e] text-[#6a6a6a] dark:text-[#858585] text-2xl font-bold rounded-none hover:bg-[#f5f5f5] dark:hover:bg-[#2d2d2d] transition-colors duration-300 cursor-pointer border border-[#e0e0e0] dark:border-[#3e3e42] overflow-hidden group`}
+        className={`relative inline-block px-12 py-6 bg-white dark:bg-[#1e1e1e] text-[#6a6a6a] dark:text-[#858585] text-2xl font-bold rounded-none hover:bg-[#f5f5f5] dark:hover:bg-[#2d2d2d] transition-colors duration-300 cursor-pointer border border-[#e0e0e0] dark:border-[#3e3e42] overflow-hidden group no-underline`}
       >
         {/* Base text */}
         <span className="relative z-10 block">Inquire</span>
@@ -210,7 +209,7 @@ function GlitchButton({ onClick, isDarkMode }: { onClick: () => void; isDarkMode
           }}
           transition={{ duration: 0.8, repeat: Infinity }}
         />
-      </motion.button>
+      </motion.a>
     </motion.div>
   )
 }
@@ -218,7 +217,6 @@ function GlitchButton({ onClick, isDarkMode }: { onClick: () => void; isDarkMode
 export default function Home() {
   const [currentStep, setCurrentStep] = useState(0)
   const [isDarkMode, setIsDarkMode] = useState(true)
-  const [isContactFormOpen, setIsContactFormOpen] = useState(false)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -410,7 +408,7 @@ export default function Home() {
 
         {/* Section 3: Inquire Button */}
         <div className="min-w-full h-full flex flex-col justify-center items-center px-8 relative z-10 snap-center">
-          <GlitchButton onClick={() => setIsContactFormOpen(true)} isDarkMode={isDarkMode} />
+          <GlitchButton isDarkMode={isDarkMode} />
         </div>
       </div>
 
@@ -429,13 +427,6 @@ export default function Home() {
           </motion.div>
         </motion.div>
       )}
-
-      {/* Contact Form Modal */}
-      <ContactForm
-        isOpen={isContactFormOpen}
-        onClose={() => setIsContactFormOpen(false)}
-        isDarkMode={isDarkMode}
-      />
     </div>
   )
 }
